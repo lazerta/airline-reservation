@@ -12,14 +12,16 @@ CREATE TABLE tbl_user
 
 CREATE TABLE tbl_flight
 (
-    id                     int(5) auto_increment,
-    capacity               int(4),
-    fare                   decimal(6, 2),
-    departure_airport_id   int(4),
-    destination_airport_id int(4),
-    departure_time         datetime,
-    arrive_time            datetime,
-    airline_id             int(4),
+    id                       int(5) auto_increment,
+    capacity                 int(4),
+    count                    int(5)  default 0,
+    fare                     decimal(6, 2),
+    departure_airport_name   varchar(256) NOT NULL,
+    destination_airport_name varchar(256) NOT NULL,
+    departure_time           datetime,
+    arrive_time              datetime,
+    airline_name             varchar(256) NOT NULL,
+    isCancelled              boolean default false,
     primary key (id)
 
 
@@ -34,26 +36,25 @@ CREATE TABLE tbl_reservation
 
 CREATE TABLE tbl_airport
 (
-    id   int(4) AUTO_INCREMENT not null,
-    name varchar(256),
-    primary key (id)
+    name     varchar(256),
+    location varchar(256),
+    primary key (name)
 );
 
 CREATE TABLE tbl_airline
 (
-    id         int(4) auto_increment,
-    name       varchar(256),
-    airport_id int(5),
-    primary key (id)
+
+    airline_name varchar(256),
+    airport_name varchar(256),
+    primary key (airline_name)
 
 );
 
 
-CREATE  TABLE tbl_operating_airport(
-    operating_airline_id int(4),
-    operating_airport_id int(4),
-    primary key (operating_airline_id,operating_airport_id)
+CREATE TABLE tbl_operating_airport
+(
+    operating_airline_name varchar(256),
+    operating_airport_name varchar(256),
+    primary key (operating_airline_name, operating_airport_name)
 );
 
-
-select * from tbl_flight,tbl_user where  username = t.customer_username AND tbl_flight.id = tbl_reservation.flight_id;

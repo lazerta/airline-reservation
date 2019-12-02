@@ -1,24 +1,14 @@
 package com.lei.airlinereservation.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
 
-
-
+@Data
 @Entity
-@AllArgsConstructor
-@Builder
-@ToString(exclude = {"users", "airline"})
-@EqualsAndHashCode(exclude = {"users", "airline"})
 @Table(name = "tbl_flight")
-@NoArgsConstructor
 public class Flight implements Serializable {
     @Id
     @Column(name = "id")
@@ -26,22 +16,18 @@ public class Flight implements Serializable {
 
     @Column(name = "capacity")
     private Integer capacity;
+
     @Column(name = "count")
-    private Integer count = 0;
+    private Integer count;
 
     @Column(name = "fare")
     private Double fare;
 
-    @JoinColumn(name = "departure_airport_id")
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})
-    private Airport  departure;
-    @JoinColumn(name = "airline_id")
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})
-    private Airline airline;
+    @Column(name = "departure_airport_name")
+    private String departureAirportName;
 
-    @JoinColumn(name = "destination_airport_id")
-    @ManyToOne(fetch = FetchType.EAGER,cascade = {CascadeType.REFRESH})
-    private Airport arrive;
+    @Column(name = "destination_airport_name")
+    private String destinationAirportName;
 
     @Column(name = "departure_time")
     private LocalDateTime departureTime;
@@ -49,8 +35,11 @@ public class Flight implements Serializable {
     @Column(name = "arrive_time")
     private LocalDateTime arriveTime;
 
-    private boolean canceled = false;
-    @ManyToMany(mappedBy = "reservations")
-    private Set<User> users;
+    @Column(name = "airline_name")
+    private String airlineName;
+
+    @Column(name = "isCancelled")
+    private Boolean isCancelled;
+
 
 }

@@ -1,7 +1,6 @@
 package com.lei.airlinereservation.controller;
 
 import com.lei.airlinereservation.common.Const;
-import com.lei.airlinereservation.entity.User;
 import com.lei.airlinereservation.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;

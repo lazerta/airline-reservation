@@ -1,8 +1,6 @@
 package com.lei.airlinereservation.service;
 
 import com.lei.airlinereservation.entity.Flight;
-import org.springframework.data.domain.Page;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FlightService  {
     Flight findOne(Integer id);

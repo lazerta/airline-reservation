@@ -2,13 +2,14 @@ package com.lei.airlinereservation.service.impl;
 
 import com.lei.airlinereservation.common.Const;
 import com.lei.airlinereservation.entity.Flight;
+import com.lei.airlinereservation.entity.Reservation;
+import com.lei.airlinereservation.entity.ReservationId;
 import com.lei.airlinereservation.entity.User;
 import com.lei.airlinereservation.exceptions.AppException;
+import com.lei.airlinereservation.repository.ReservationRepository;
 import com.lei.airlinereservation.repository.UserRepository;
 import com.lei.airlinereservation.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
@@ -21,11 +22,12 @@ import javax.transaction.Transactional;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private ReservationRepository reservationRepository;
 
     @Override
     public User findOne(String username) {
-         User user = userRepository.findUserByUsername(username).orElseThrow(()-> new AppException("User does not exist"));
-         
+        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new AppException("User does not exist"));
+
 
         return userRepository.findById(username).get();
     }
@@ -46,14 +48,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<Flight> reservationPages(Pageable pageable, String username) {
-        return null;
+    public boolean cancelReservation(String username, Integer FlightId) {
+        ReservationId id = new ReservationId(username, FlightId);
+
+        return reservationRepository.deleteByReservationId(id);
     }
 
-    @Override
-    public boolean cancelReservation(Flight flight) {
-        return false;
-    }
 
     @Override
     public User login(User user) {

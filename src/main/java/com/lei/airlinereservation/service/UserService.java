@@ -12,10 +12,7 @@ public interface UserService {
     User save(User user);
     User update(User user);
     void delete(String username);
-    Page<Flight> reservationPages(Pageable pageable,String username);
-    boolean cancelReservation(Flight flight);
-
-
+    boolean cancelReservation(String username,Integer FlightId);
     User login(User user);
     void LoginOut(HttpSession session);
 
