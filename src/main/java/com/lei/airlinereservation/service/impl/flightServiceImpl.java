@@ -35,11 +35,7 @@ public class flightServiceImpl implements FlightService {
        flightRepository.deleteById(id);
     }
 
-    @Override
-    public boolean setCancel(Integer id, boolean cancel) {
-        Flight flight = findOne(id);
-        return false;
-    }
+
 
 
 }

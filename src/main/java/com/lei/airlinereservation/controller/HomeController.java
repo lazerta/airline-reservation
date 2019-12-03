@@ -1,6 +1,7 @@
 package com.lei.airlinereservation.controller;
 
 import com.lei.airlinereservation.common.Const;
+import com.lei.airlinereservation.entity.User;
 import com.lei.airlinereservation.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,23 +14,33 @@ import javax.servlet.http.HttpSession;
 @Controller
 @AllArgsConstructor
 public class HomeController {
-    private   UserService userService;
+    private UserService userService;
 
-    @GetMapping("/login")
-    String login(Model model) {
-         return "login";
+    @GetMapping("login")
+    public String login(Model model) {
+        return "login";
     }
-    @PostMapping("/login")
-    String loginForm(HttpSession session,  User user,Model model){
+
+    @PostMapping("login")
+    public String loginForm(HttpSession session, User user, Model model) {
         User user1 = userService.login(user);
-          if (user1 == null){
-              model.addAttribute("errorMessage", "invalid credentials");
-              return "login";
-          }
+        if (user1 == null) {
+            model.addAttribute("errorMessage", "invalid credentials");
+            return "login";
+        }
 
         session.setAttribute(Const.currentUser, user1);
         model.addAttribute(Const.currentUser, user1);
-        return   "user";
+        return "user";
 
     }
+
+    @GetMapping("register")
+    public String registerForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
+
+
 }

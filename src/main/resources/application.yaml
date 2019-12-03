@@ -2,18 +2,22 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
-    database: mysql
+      ddl-auto: create-drop
+    database: h2
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.29.178:3306/db_airline
-    username: root
-    password: root
+
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://192.168.29.178:3306/db_airline
+#    username: root
+#    password: root
 
   security:
     user:
       name: root
       password: root
       roles: Admin
+  h2:
+    console:
+      enabled: true
 

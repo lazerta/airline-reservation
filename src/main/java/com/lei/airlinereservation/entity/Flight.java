@@ -1,6 +1,7 @@
 package com.lei.airlinereservation.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "tbl_flight")
+@DynamicUpdate
 public class Flight implements Serializable {
     @Id
     @Column(name = "id")
@@ -37,9 +39,8 @@ public class Flight implements Serializable {
 
     @Column(name = "airline_name")
     private String airlineName;
-
-    @Column(name = "isCancelled")
-    private Boolean isCancelled;
+    @Column(name = "is_cancelled")
+    private Boolean isCancelled =false;
 
 
 }

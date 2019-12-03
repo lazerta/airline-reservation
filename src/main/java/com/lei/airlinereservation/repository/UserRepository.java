@@ -10,7 +10,6 @@ public interface UserRepository  extends JpaRepository<User,String> {
     User findByUsernameAndPassword(String username, String password);
 
     boolean existsUserByUsername(String username);
-    void  cancelReservation(String username,Integer flightID);
 
 
 

@@ -2,6 +2,7 @@ package com.lei.airlinereservation.interceptor;
 
 import com.lei.airlinereservation.annotation.Admin;
 import com.lei.airlinereservation.common.Const;
+import com.lei.airlinereservation.entity.User;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
