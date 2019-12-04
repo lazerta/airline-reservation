@@ -1,9 +1,6 @@
 package com.lei.airlinereservation.service;
 
-import com.lei.airlinereservation.entity.Flight;
 import com.lei.airlinereservation.entity.User;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,8 +10,9 @@ public interface UserService {
     User update(User user);
     void delete(String username);
     boolean cancelReservation(String username,Integer FlightId);
-    User login(User user);
+    User login(User user,HttpSession session);
     void LoginOut(HttpSession session);
 
     User register(User user);
+
 }

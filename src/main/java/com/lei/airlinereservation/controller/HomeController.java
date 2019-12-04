@@ -1,46 +1,43 @@
 package com.lei.airlinereservation.controller;
 
-import com.lei.airlinereservation.common.Const;
+import com.lei.airlinereservation.common.PayLoad;
 import com.lei.airlinereservation.entity.User;
 import com.lei.airlinereservation.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @RequestMapping("/")
-@Controller
+@RestController
 @AllArgsConstructor
 public class HomeController {
     private UserService userService;
 
-    @GetMapping("login")
-    public String login(Model model) {
-        return "login";
-    }
-
     @PostMapping("login")
-    public String loginForm(HttpSession session, User user, Model model) {
-        User user1 = userService.login(user);
-        if (user1 == null) {
-            model.addAttribute("errorMessage", "invalid credentials");
-            return "login";
-        }
+    public PayLoad<User> login(@RequestBody User user, HttpSession session) {
 
-        session.setAttribute(Const.currentUser, user1);
-        model.addAttribute(Const.currentUser, user1);
-        return "user";
-
+       User user1 = userService.login(user,session);
+       if (user1 == null){
+           return PayLoad.failed();
+       }
+       return PayLoad.success(user1);
     }
 
-    @GetMapping("register")
-    public String registerForm(Model model) {
-        model.addAttribute("user", new User());
-        return "register";
-    }
+    @PostMapping("logout")
+     public PayLoad  logout(HttpServletRequest request){
+        userService.LoginOut(request.getSession());
+        return  PayLoad.success();
+     }
 
+     @PostMapping("register")
+     public  PayLoad<User> register(@RequestBody User user){
+          return PayLoad.success( userService.register(user));
+     }
 
 
 }

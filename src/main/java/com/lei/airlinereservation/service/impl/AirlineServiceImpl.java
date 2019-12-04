@@ -1,18 +1,17 @@
 package com.lei.airlinereservation.service.impl;
 
 import com.lei.airlinereservation.entity.Flight;
-import com.lei.airlinereservation.repository.AirLineRepository;
 import com.lei.airlinereservation.repository.FlightRepository;
 import com.lei.airlinereservation.service.AirlineService;
-import com.lei.airlinereservation.service.FlightService;
 import com.lei.airlinereservation.service.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackOn = Exception.class)
@@ -45,7 +44,13 @@ public class AirlineServiceImpl implements AirlineService {
 
     @Override
     public List<Flight> search(Flight flight) {
-        return flightRepository.findAll(Example.of(flight));
+        ExampleMatcher matcher = ExampleMatcher.matchingAny()
+                .withIgnoreCase()
+                .withIgnoreNullValues()
+                .withStringMatcher(ExampleMatcher.StringMatcher.STARTING);
+
+        Sort sort = Sort.by(Sort.Direction.ASC, "fare","airlineName");
+        return flightRepository.findAll(Example.of(flight, matcher), sort);
 
     }
 

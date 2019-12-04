@@ -14,7 +14,7 @@ public class PageDTO<T> {
     private Boolean hasNext;
     List<T> content;
 
-    public PageDTO(Page<T> page) {
+    private PageDTO(Page<T> page) {
         totalElement = page.getTotalElements();
         totalPage = page.getTotalPages();
         currentPageNumber = page.getNumber() + 1;
@@ -23,5 +23,9 @@ public class PageDTO<T> {
         hasNext = page.hasNext();
         content = page.getContent();
 
+    }
+
+    public  static <T> PageDTO<T> create(Page<T> page){
+        return  new PageDTO<>(page);
     }
 }

@@ -1,8 +1,6 @@
 package com.lei.airlinereservation.service.impl;
 
 import com.lei.airlinereservation.common.Const;
-import com.lei.airlinereservation.entity.Flight;
-import com.lei.airlinereservation.entity.Reservation;
 import com.lei.airlinereservation.entity.ReservationId;
 import com.lei.airlinereservation.entity.User;
 import com.lei.airlinereservation.exceptions.AppException;
@@ -26,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findOne(String username) {
-        User user = userRepository.findUserByUsername(username).orElseThrow(() -> new AppException("User does not exist"));
+        User user = userRepository.findUserByUsername(username).orElseThrow(() -> AppException.create("User doest not exist"));
 
 
         return userRepository.findById(username).get();
@@ -50,14 +48,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean cancelReservation(String username, Integer FlightId) {
         ReservationId id = new ReservationId(username, FlightId);
-
         return reservationRepository.deleteByReservationId(id);
     }
 
 
     @Override
-    public User login(User user) {
-        return userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+    public User login(User user,HttpSession session) {
+        User userLogged = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+        if (userLogged == null) {
+            throw AppException.create("wrong username or password");
+        }
+        session.setAttribute(Const.currentUser, userLogged);
+        return userLogged;
     }
 
     @Override
@@ -68,9 +70,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(User user) {
         if (userRepository.existsUserByUsername(user.getUsername())) {
-            return null;
+            throw  AppException.create("user with user name " + user.getUsername() + "  already exist");
         }
         return userRepository.save(user);
 
     }
+
+
 }

@@ -19,6 +19,7 @@ public class AdminInterceptor implements HandlerInterceptor {
             }
             User user = (User) request.getSession().getAttribute(Const.currentUser);
             if (!user.getRole().equals(Const.ADMIN)){
+
                 response.sendError(403, "Not Admin");
             }
         }
