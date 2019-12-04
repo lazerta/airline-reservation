@@ -3,6 +3,7 @@ package com.lei.airlinereservation.interceptor;
 import com.lei.airlinereservation.annotation.Admin;
 import com.lei.airlinereservation.common.Const;
 import com.lei.airlinereservation.entity.User;
+import com.lei.airlinereservation.exceptions.AuthorizationException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -19,8 +20,7 @@ public class AdminInterceptor implements HandlerInterceptor {
             }
             User user = (User) request.getSession().getAttribute(Const.currentUser);
             if (!user.getRole().equals(Const.ADMIN)){
-
-                response.sendError(403, "Not Admin");
+             throw AuthorizationException.create("admin required");
             }
         }
         return true;

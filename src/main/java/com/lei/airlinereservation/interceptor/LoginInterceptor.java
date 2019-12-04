@@ -2,6 +2,7 @@ package com.lei.airlinereservation.interceptor;
 
 import com.lei.airlinereservation.annotation.Login;
 import com.lei.airlinereservation.common.Const;
+import com.lei.airlinereservation.exceptions.AuthorizationException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,7 +19,7 @@ public class LoginInterceptor implements HandlerInterceptor {
                 return true;
             }
              if (request.getSession().getAttribute(Const.currentUser) == null){
-                 response.sendRedirect("login");
+                 throw AuthorizationException.create("login required");
              }
         }
         return true;
